@@ -1,0 +1,77 @@
+/// Roblox Turn Based System using State Machines
+/// Credit: loudbytes
+
+A state machine is something that is so simple you don’t need to use a library for it.
+
+All you need is a module that stores the different states and has methods to switch the active state. 
+If you want to keep previous states active you can use a stack to store the active states and only update the top one. 
+Here’s an example of a stack-based state machine:
+
+local StateMachine = {}
+StateMachine.__index = StateMachine
+
+function StateMachine.new()
+    return setmetatable({
+        States = {},
+        StateStack = {},
+    }, StateMachine)
+end
+
+-- Get the top state
+function StateMachine:Peek()
+    return self.StateStack[#self.StateStack]
+end
+
+-- Add a state to the states table with the given name
+function StateMachine:Add(stateName, state)
+    self.States[stateName] = state
+end
+
+-- Push a state onto the stack
+function StateMachine:Push(stateName, ...)
+    table.insert(self.StateStack, self.States[stateName])
+    self:Peek():OnEnter(...)
+end
+
+-- Pop the state stack
+function StateMachine:Pop(...)
+    self:Peek():OnExit(...)
+    table.remove(self.StateStack, #self.StateStack)
+end
+
+return StateMachine
+-----------------------------------
+Then, a state might look like this:
+
+local State = {
+    connection = nil,
+}
+
+function State:OnEnter()
+    -- state code
+    self.connection = game:GetService("RunService").Heartbeat:Connect(function(dt)
+        -- run code every frame
+    end)
+end
+
+function State:OnExit()
+    -- cleanup code
+    if self.connection then
+        self.connection:Disconnect()
+    end
+end
+
+return State
+-----------------------------
+Then, to use, you would do:
+
+local StateMachine = require(path.to.statemachine.module)
+local BattleState = require(path.to.battlestate)
+
+local stateMachine = StateMachine.new()
+stateMachine:Add("Battle", BattleState)
+
+stateMachine:Push("Battle") -- Pushes the battle state on the stack which runs it
+
+This is what I used for my turn based combat system a while back and it worked wonderfully. 
+Note that you will need to modify this to get it to do what you need, this is only an example.
