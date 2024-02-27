@@ -1,3 +1,29 @@
 RobloxStateMachine
 https://www.youtube.com/watch?v=7M1LkjPaEFE
 /// Video goes over basic states such as chasing , attacking & dying. 
+
+-------------------------------------------------------------------------
+
+What is OOP in Lua
+https://devforum.roblox.com/t/all-about-object-oriented-programming/8585
+
+/// Goes over Object Oriented Program (OOP) in lua as well as other usefull thing as well as going over MetaTables [Required]
+reasons why we need to learn this specfically for Turn based 
+
+OOP and Metatable are really advance topics, with that said it’s perfect for the job!
+
+So you create a Base_Class for all NPCs
+
+Why do you need a Base_Class?
+Because all NPCs will have the same basic stats like; Health, Damage, Armor, WalkSpeed, EXPOnDeath, ItemDrops, etc
+They will also have basic functions like; Move,Attack,Spawn,Die etc
+
+You know like Humans;
+Gender, Age, Race, etc
+
+then you create another Class for specific types of NPCs like
+Lava_Class; Has fire skills, Immune to Fire Magic etc,
+
+With OOP and MetaTables it will make your Code really clean and very organized.
+
+--------------------------------------------------------------------------------
